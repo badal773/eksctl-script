@@ -36,7 +36,7 @@ nodeGroups:
         - arn:aws:iam::aws:policy/AmazonS3FullAccess
     ssh:
       allow: true
-      publicKeyName: "infra"
+      publicKeyName: "nfx-devtron"
     volumeSize: 50
     asgSuspendProcesses: ["AZRebalance"]
     tags:
@@ -83,7 +83,7 @@ nodeGroups:
         - arn:aws:iam::aws:policy/AmazonS3FullAccess
     ssh:
       allow: true
-      publicKeyName: "infra"
+      publicKeyName: "nfx-devtron"
     volumeSize: 100
     asgSuspendProcesses: ["AZRebalance"]
     tags:
