@@ -9,6 +9,10 @@ metadata:
   namespace: devtroncd
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+        - devtron.example.com
+      secretName: devtron-example-tls
   rules:
     - host: <>
       http:
