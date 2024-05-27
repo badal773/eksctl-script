@@ -36,5 +36,5 @@ nodeGroups:
         - arn:aws:iam::aws:policy/AmazonS3FullAccess
     ssh:
       allow: true
-      publicKeyName: "xxxxxx"
+      publicKeyName: "windows-devtron-ssh"
     volumeSize: 500
