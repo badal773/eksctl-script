@@ -20,9 +20,8 @@ nodeGroups:
     minSize: 1
     maxSize: 2
     instancesDistribution:
-      maxPrice: 0.5
-      instanceTypes: ["c5a.xlarge", "r5a.xlarge", "m5a.xlarge"]
-      onDemandBaseCapacity: 1
+      instanceTypes: ["m7a.xlarge	"]
+      onDemandBaseCapacity: 0
     iam:
       withAddonPolicies:
         autoScaler: true
@@ -37,7 +36,7 @@ nodeGroups:
     ssh:
       allow: true
       publicKeyName: "xxxxxx"
-    volumeSize: 50
+    volumeSize: 500
     kubeletExtraConfig:
         kubeReserved:
             cpu: "200m"
