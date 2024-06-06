@@ -1,0 +1,63 @@
+  - apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+      annotations:
+        nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+      name: ingress
+    spec:
+      ingressClassName: nginx
+      rules:
+        - host: devtron-10.devtron.info
+          http:
+            paths:
+              - backend:
+                  service:
+                    name: shared-devtron-orchestrator-shared-dcd-10-service
+                    port:
+                      number: 80
+                path: /orchestrator
+                pathType: ImplementationSpecific
+        - host: devtron-10.devtron.info
+          http:
+            paths:
+              - backend:
+                  service:
+                    name: shared-devtron-orchestrator-shared-dcd-10-service
+                    port:
+                      number: 80
+                path: /dashboard
+                pathType: ImplementationSpecific
+  - apiVersion: http.keda.sh/v1alpha1
+    kind: HTTPScaledObject
+    metadata:
+      name: shared-devtron-orchestrator-shared-dcd-10-httpscale
+    spec:
+      hosts:
+        - devtron-10.devtron.info
+        - shared-devtron-orchestrator-shared-dcd-10-service
+        - shared-devtron-orchestrator-shared-dcd-10-service.devtroncd-10
+        - shared-devtron-orchestrator-shared-dcd-10-service.devtroncd-10.svc.cluster.local
+      pathPrefixes:
+        - /dashboard
+        - /orchestrator
+        - /version
+        - /health
+      targetPendingRequests: 100
+      scaledownPeriod: 10800
+      scaleTargetRef:
+        apiVersion: argoproj.io/v1alpha1
+        kind: Rollout
+        name: shared-devtron-orchestrator-shared-dcd-10
+        service: shared-devtron-orchestrator-shared-dcd-10-service-proxy
+        port: 80
+      replicas:
+        min: 0
+        max: 1
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: shared-devtron-orchestrator-shared-dcd-10-service
+    spec:
+      type: ExternalName
+      internalTrafficPolicy: Cluster
+      externalName: keda-add-ons-http-interceptor-proxyy.utils.svc.cluster.local
