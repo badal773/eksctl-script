@@ -1,0 +1,46 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/app-root: /dashboard
+  labels:
+    kcert.dev/ingress: managed
+  name: devtron-ingress
+  namespace: devtroncd
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - devtron.example.com
+      secretName: devtron-example-tls
+  rules:
+    - host: <>
+      http:
+        paths:
+          - backend:
+              service:
+                name: devtron-service
+                port:
+                  number: 80
+            path: /orchestrator
+            pathType: ImplementationSpecific
+    - host: <>
+      http:
+        paths:
+          - backend:
+              service:
+                name: devtron-service
+                port:
+                  number: 80
+            path: /dashboard
+            pathType: ImplementationSpecific
+    - host: <>
+      http:
+        paths:
+          - backend:
+              service:
+                name: devtron-service
+                port:
+                  number: 80
+            path: /grafana
+            pathType: ImplementationSpecific
