@@ -179,3 +179,25 @@ alertmanager:
             -   webhook_url: https://discord.com/api/webhooks/<>/<>
                 send_resolved: true
                 title: '[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.alertname }}'
+---
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    name: alpine-stress
+  spec:
+    containers:
+    - name: alpine-stress
+      image: containerstack/alpine-stress
+      args:
+        - /bin/sh
+        - -c
+        - yes > /dev/null 
+      ports:
+      - containerPort: 80
+      resources:
+        limits:
+          cpu: "0.5"
+          memory: 500Mi
+        requests:
+          cpu: "0.5"
+          memory: 500Mi
